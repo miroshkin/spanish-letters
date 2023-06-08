@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Copy Or Drag'n'Drop Spanish Letters</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    />
+    <style>
+      .check-icon {
+        display: none;
+        color: green;
+        font-size: 20px;
+      }
+      .square-button {
+        width: 100px;
+        height: 100px;
+        padding: 0;
+        font-size: 24px;
+        cursor: move;
+      }
+      .button-margin {
+        margin-right: 10px;
+      }
+	  
+	  @media (max-width: 600px) {
+        .btn-group {
+          flex-direction: column;
+        }
+        .button-margin {
+          margin-right: 0;
+          margin-bottom: 10px;
+        }
+      }
+	  
+    </style>
+    <script>
+      function copyToClipboard(text, buttonId) {
+        navigator.clipboard.writeText(text).then(function() {
+          const checkIcon = document.getElementById(buttonId + '-check');
+          checkIcon.style.display = 'inline';
+          setTimeout(function() {
+            checkIcon.style.display = 'none';
+          }, 2000);
+        }).catch(function(error) {
+          console.error('Error copying text to clipboard:', error);
+        });
+      }
+      
+      function handleDragStart(event) {
+  if (event.target.tagName === 'BUTTON') {
+    const symbol = event.target.textContent.trim().charAt(0);
+    event.dataTransfer.setData('text/plain', symbol);
+  }
+}
+
+      
+      function handleDragOver(event) {
+        event.preventDefault();
+      }
+      
+      function handleDrop(event) {
+        event.preventDefault();
+        const buttonId = event.dataTransfer.getData('text/plain');
+        const button = document.getElementById(buttonId);
+        const targetButton = event.target.closest('.square-button');
+        if (targetButton) {
+          targetButton.parentNode.insertBefore(button, targetButton.nextSibling);
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="mt-4">Copy Or Drag'n'Drop</h1>
+      <div class="btn-group mt-4" ondragover="handleDragOver(event)" ondrop="handleDrop(event)">
+        <button
+          id="a"
+          class="btn btn-primary square-button button-margin"
+          draggable="true"
+          ondragstart="handleDragStart(event)"
+          onclick="copyToClipboard('á', 'a')"
+        >
+          á
+          <i id="a-check" class="check-icon">&#10004;</i>
+        </button>
+        <button
+          id="e"
+          class="btn btn-primary square-button button-margin"
+          draggable="true"
+          ondragstart="handleDragStart(event)"
+          onclick="copyToClipboard('é', 'e')"
+        >
+          é
+          <i id="e-check" class="check-icon">&#10004;</i>
+        </button>
+        <button
+          id="i"
+          class="btn btn-primary square-button button-margin"
+          draggable="true"
+          ondragstart="handleDragStart(event)"
+          onclick="copyToClipboard('í', 'i')"
+        >
+          í
+          <i id="i-check" class="check-icon">&#10004;</i>
+        </button>
+        <button
+          id="o"
+          class="btn btn-primary square-button button-margin"
+          draggable="true"
+          ondragstart="handleDragStart(event)"
+          onclick="copyToClipboard('ó', 'o')"
+        >
+          ó
+          <i id="o-check" class="check-icon">&#10004;</i>
+        </button>
+        <button
+          id="u"
+          class="btn btn-primary square-button button-margin"
+          draggable="true"
+          ondragstart="handleDragStart(event)"
+          onclick="copyToClipboard('ú', 'u')"
+        >
+          ú
+          <i id="u-check" class="check-icon">&#10004;</i>
+        </button>
+		<button
+          id="n"
+          class="btn btn-primary square-button button-margin"
+          draggable="true"
+          ondragstart="handleDragStart(event)"
+          onclick="copyToClipboard('ñ', 'n')"
+        >
+          ñ
+          <i id="n-check" class="check-icon">&#10004;</i>
+        </button>
+      </div>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  </body>
+</html>
